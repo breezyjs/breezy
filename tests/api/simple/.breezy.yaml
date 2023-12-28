@@ -1,0 +1,6 @@
+output: "./out"
+openapiDefinition: "./simple.yaml"
+prismaSchema: "./schema.prisma"
+bootstrap: "./src/index.ts"
+generatedOutputDir: "./src/core/"
+srcDir: "./src"
