@@ -1,7 +1,8 @@
 import * as builders from "../core/builders";
 
 builders.updatePetWithForm(async ({
-  params
+  params,
+  headers
 }) => {
   params.petId
   return {}

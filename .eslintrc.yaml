@@ -13,8 +13,8 @@ parserOptions:
 plugins:
   - "@typescript-eslint"
 ignorePatterns:
-  - "*.yaml"
-  - "scripts/**/*.js"
+  - "**/*.yaml"
+  - "**/*.js"
 rules:
   # vanilla warn
   accessor-pairs:
