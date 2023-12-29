@@ -12,7 +12,7 @@ export default function build(document: OpenAPIV3.Document): string {
         const operation = pathItem[method];
         const signature = [
           operation?.description ? `/** ${operation.description} */` : null,
-          `export function ${operation?.operationId}(factory: any)`
+          `export function ${operation?.operationId}(factory: (request: any) => Promise<void>): void`
         ].filter(Boolean).join("\n");
 
         return [

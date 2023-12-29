@@ -9,6 +9,7 @@ import { CliOptions, ManifestOptions } from "types/common";
 import { OpenAPIV3 } from "openapi-types";
 import lint from "generator/openapi/lint";
 import build from "./build";
+import { decompress } from "brotli";
 
 /** Generates an OpenAPI definition into TypeScript handler factories, DTOs, and validators. */
 export default function generate(option: CliOptions & ManifestOptions) {
@@ -47,4 +48,6 @@ export default function generate(option: CliOptions & ManifestOptions) {
 
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(path.join(outputDir, "builders.ts"), generatedCode);
+  fs.writeFileSync(path.join(outputDir, "bootstrap.ts"), decompress(Buffer.from(__TEMPLATE_BOOTSTRAP__, "base64")));
+  fs.writeFileSync(path.join(outputDir, "types.ts"), decompress(Buffer.from(__TEMPLATE_TYPES__, "base64")));
 }

@@ -1,2 +1,2 @@
 test:
-	npm run dev generate --manifest tests/api/simple/.breezy.yaml
+	yarn dev generate --manifest tests/api/simple/.breezy.yaml
