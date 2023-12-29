@@ -1,21 +1,31 @@
 export type BootstrapOptions = {
   port?: number;
   host?: string;
+  onListen?: (err: Error | null, address: string) => void;
+  onClose?: () => void;
 }
 
-export type Response<TBody> = {
+export type Response<TBody = any> = {
   headers: Record<string, string>;
   status: number;
   body: TBody;
 }
 
-export type Request<
-  TBody,
-  TQuery = Record<string, string>,
-  TParams = Record<string, string>,
-  THeader = Record<string, string>,
-  TCookie = Record<string, string>
-> = {
+export type RequestBodyDefault = unknown;
+export type RequestQueryDefault = {};
+export type RequestParamsDefault = {};
+export type RequestHeadersDefault = {};
+export type RequestCookieDefault = {};
+
+interface RequestGenericInterface {
+  Body?: RequestBodyDefault;
+  Query?: RequestQueryDefault;
+  Params?: RequestParamsDefault;
+  Headers?: RequestHeadersDefault;
+  Cookie?: RequestCookieDefault;
+}
+
+export type Request<T extends RequestGenericInterface = {}> = {
   method: string;
   uri: string;
   version: string;
@@ -24,11 +34,11 @@ export type Request<
   scheme: string;
   peerAddr?: string;
   realIpRemoteAddr?: string;
-  body: TBody;
-  query: TQuery;
-  params: TParams;
-  headers: THeader;
-  cookie: TCookie;
+  body: T["Body"];
+  query: T["Query"];
+  params: T["Params"];
+  headers: T["Headers"];
+  cookie: T["Cookie"];
   store: any;
   extensions: any;
 }

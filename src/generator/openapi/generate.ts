@@ -42,12 +42,13 @@ export default function generate(option: CliOptions & ManifestOptions) {
     throwErr(lintingResult.errors.map((e) => `error: ${e.message}`).join("\n"));
   }
 
-  const generatedCode = build(document);
+  const buildResult = build(document);
 
   const outputDir = path.join(option.manifest, "..", option.generatedOutputDir);
 
   fs.mkdirSync(outputDir, { recursive: true });
-  fs.writeFileSync(path.join(outputDir, "builders.ts"), generatedCode);
+  fs.writeFileSync(path.join(outputDir, "builders.ts"), buildResult.builderCode);
   fs.writeFileSync(path.join(outputDir, "bootstrap.ts"), decompress(Buffer.from(__TEMPLATE_BOOTSTRAP__, "base64")));
-  fs.writeFileSync(path.join(outputDir, "types.ts"), decompress(Buffer.from(__TEMPLATE_TYPES__, "base64")));
+  fs.writeFileSync(path.join(outputDir, "helpers.ts"), decompress(Buffer.from(__TEMPLATE_HELPERS__, "base64")));
+  fs.writeFileSync(path.join(outputDir, "types.ts"), `${Buffer.from(decompress(Buffer.from(__TEMPLATE_TYPES__, "base64"))).toString("utf-8")}\n${buildResult.typeCode}`);
 }

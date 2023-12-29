@@ -142,6 +142,7 @@ rules:
     - consistent
 
   # typescript
+  "@typescript-eslint/no-explicit-any": warn
   "@typescript-eslint/no-unused-vars": warn
 
   # vanilla default
@@ -158,6 +159,7 @@ rules:
   quotes:
     - error
     - double
+    - allowTemplateLiterals: true
   semi:
     - error
     - always

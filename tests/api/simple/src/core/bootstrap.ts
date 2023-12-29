@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import { BootstrapOptions } from "./types";
-const fastify = Fastify({
+
+export const fastify = Fastify({
   logger: true
 });
 
@@ -9,8 +10,9 @@ export default async function bootstrap(
 ) {
   const options = await factory();
 
-  fastify.listen(options, (err, address) => {
-    if (err) {throw err;}
-    // Server is now listening on ${address}
-  });
+  fastify.listen(options, (err, address) => options.onListen?.(err, address));
 }
+
+fastify.addHook("onReady", (done) => {
+  console.log("ready");
+});
