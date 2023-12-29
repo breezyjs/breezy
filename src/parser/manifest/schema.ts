@@ -5,6 +5,6 @@ export const ManifestSchema = z.object({
   openapiDefinition: z.string(),
   prismaSchema: z.string().optional(),
   bootstrap: z.string().optional(),
-  generatedOutputDir: z.string().optional(),
+  generatedOutputDir: z.string(),
   srcDir: z.string().optional()
 });

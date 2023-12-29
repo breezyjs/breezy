@@ -9,10 +9,10 @@ import throwErr from "helpers/throwErr";
 
 function main(command: string | null, args: CliOptions): void {
   if (!isValid(args.manifest)) {
-    throwErr(`error: invalid path '${args.manifest}'`)
+    throwErr(`error: invalid path '${args.manifest}'`);
   }
 
-  const manifest = parseManifest(args.manifest)
+  const manifest = parseManifest(args.manifest);
 
   // console.log(manifest);
 
@@ -22,7 +22,7 @@ function main(command: string | null, args: CliOptions): void {
     .with({ command: CommandKey.Build }, () => null)
     .otherwise(() => {
       // parse(args);
-      console.log("otherwise")
+      console.log("otherwise");
     });
 }
 
@@ -47,7 +47,7 @@ main(
         argv: process.argv.slice(firstOptionArgIdx === -1 ? process.argv.length : firstOptionArgIdx)
       }),
       ...(firstCommandArgIdx === -1 && firstOptionArgIdx === -1 && {
-        argv: ["-h"]
+        argv: [ "-h" ]
       })
     }
   )

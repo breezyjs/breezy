@@ -27,13 +27,13 @@ export default function generate(option: CliOptions & ManifestOptions) {
   const validationResult = validator.validate(document);
 
   if (validationResult.errors.length) {
-    throwErr(validationResult.errors.map((e) => `error: ${e.message}`).join("\n"))
+    throwErr(validationResult.errors.map((e) => `error: ${e.message}`).join("\n"));
   }
 
   const lintingResult = lint(document);
 
   if (lintingResult.errors.length) {
-    throwErr(lintingResult.errors.map((e) => `error: ${e.message}`).join("\n"))
+    throwErr(lintingResult.errors.map((e) => `error: ${e.message}`).join("\n"));
   }
 
   // fs.mkdirSync(path.join(option.manifest, "..", option.generatedOutputDir))
