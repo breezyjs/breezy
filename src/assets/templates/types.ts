@@ -30,4 +30,5 @@ export type Request<
   headers: THeader;
   cookie: TCookie;
   store: any;
+  extensions: any;
 }

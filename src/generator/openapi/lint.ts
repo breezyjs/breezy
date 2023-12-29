@@ -1,3 +1,4 @@
+import { METHODS } from "common/constants";
 import { OpenAPIV3 } from "openapi-types";
 
 type OpenAPILintingResult = {
@@ -5,8 +6,6 @@ type OpenAPILintingResult = {
     message: string;
   }[]
 }
-
-const METHODS = [ "get", "put", "post", "delete", "options", "head", "patch", "trace" ] as const;
 
 export default function lint(document: OpenAPIV3.Document): OpenAPILintingResult {
   const errors = Object.entries(document.paths).flatMap(([ path, pathItem = {} ]) => {

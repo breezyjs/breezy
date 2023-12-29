@@ -43,7 +43,8 @@ export default function generate(option: CliOptions & ManifestOptions) {
 
   const generatedCode = build(document);
 
-  // fs.mkdirSync(path.join(option.manifest, "..", option.generatedOutputDir))
+  const outputDir = path.join(option.manifest, "..", option.generatedOutputDir);
 
-  console.log(document.paths);
+  fs.mkdirSync(outputDir, { recursive: true });
+  fs.writeFileSync(path.join(outputDir, "builders.ts"), generatedCode);
 }
