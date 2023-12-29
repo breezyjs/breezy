@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
+  "workspaces": [
+    "packages/dev"
+  ],
   "scripts": {
     "check": "tsc --noEmit",
     "dev": "node scripts/esbuild.js && node dist/index.js",

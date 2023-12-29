@@ -8,5 +8,12 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "content-type": "^1.0.5",
+    "path-to-regexp": "^6.2.1"
+  },
+  "devDependencies": {
+    "@types/content-type": "^1.1.8"
+  }
 }
