@@ -43,239 +43,247 @@ export type Request<T extends RequestGenericInterface = {}> = {
   extensions: any;
 }
 
-export type UpdatePetPutParams = {
+export type UpdatePetParams = {
 }
 
-export type UpdatePetPutQuery = {
+export type UpdatePetQuery = {
 }
 
-export type UpdatePetPutBody = {
+export type UpdatePetBody = {
 }
 
-export type UpdatePetPutHeaders = {
+export type UpdatePetHeaders = {
 }
 
-export type AddPetPostParams = {
+export type AddPetParams = {
 }
 
-export type AddPetPostQuery = {
+export type AddPetQuery = {
 }
 
-export type AddPetPostBody = {
+export type AddPetBody = {
 }
 
-export type AddPetPostHeaders = {
+export type AddPetHeaders = {
 }
 
-export type FindPetsByStatusGetParams = {
+export type FindPetsByStatusParams = {
 }
 
-export type FindPetsByStatusGetQuery = {
+export type FindPetsByStatusQuery = {
+  status?: string;
 }
 
-export type FindPetsByStatusGetBody = {
+export type FindPetsByStatusBody = {
 }
 
-export type FindPetsByStatusGetHeaders = {
+export type FindPetsByStatusHeaders = {
 }
 
-export type FindPetsByTagsGetParams = {
+export type FindPetsByTagsParams = {
 }
 
-export type FindPetsByTagsGetQuery = {
+export type FindPetsByTagsQuery = {
+  tags?: string;
 }
 
-export type FindPetsByTagsGetBody = {
+export type FindPetsByTagsBody = {
 }
 
-export type FindPetsByTagsGetHeaders = {
+export type FindPetsByTagsHeaders = {
 }
 
-export type GetPetByIdGetParams = {
-  petId: string
+export type GetPetByIdParams = {
+  petId: string;
 }
 
-export type GetPetByIdGetQuery = {
+export type GetPetByIdQuery = {
 }
 
-export type GetPetByIdGetBody = {
+export type GetPetByIdBody = {
 }
 
-export type GetPetByIdGetHeaders = {
+export type GetPetByIdHeaders = {
 }
 
-export type UpdatePetWithFormPostParams = {
-  petId: string
+export type UpdatePetWithFormParams = {
+  petId: string;
 }
 
-export type UpdatePetWithFormPostQuery = {
+export type UpdatePetWithFormQuery = {
+  name?: string;
+  status?: string;
 }
 
-export type UpdatePetWithFormPostBody = {
+export type UpdatePetWithFormBody = {
 }
 
-export type UpdatePetWithFormPostHeaders = {
+export type UpdatePetWithFormHeaders = {
 }
 
-export type DeletePetDeleteParams = {
-  petId: string
+export type DeletePetParams = {
+  petId: string;
 }
 
-export type DeletePetDeleteQuery = {
+export type DeletePetQuery = {
 }
 
-export type DeletePetDeleteBody = {
+export type DeletePetBody = {
 }
 
-export type DeletePetDeleteHeaders = {
+export type DeletePetHeaders = {
+  api_key?: string;
 }
 
-export type UploadFilePostParams = {
-  petId: string
+export type UploadFileParams = {
+  petId: string;
 }
 
-export type UploadFilePostQuery = {
+export type UploadFileQuery = {
+  additionalMetadata?: string;
 }
 
-export type UploadFilePostBody = {
+export type UploadFileBody = {
 }
 
-export type UploadFilePostHeaders = {
+export type UploadFileHeaders = {
 }
 
-export type GetInventoryGetParams = {
+export type GetInventoryParams = {
 }
 
-export type GetInventoryGetQuery = {
+export type GetInventoryQuery = {
 }
 
-export type GetInventoryGetBody = {
+export type GetInventoryBody = {
 }
 
-export type GetInventoryGetHeaders = {
+export type GetInventoryHeaders = {
 }
 
-export type PlaceOrderPostParams = {
+export type PlaceOrderParams = {
 }
 
-export type PlaceOrderPostQuery = {
+export type PlaceOrderQuery = {
 }
 
-export type PlaceOrderPostBody = {
+export type PlaceOrderBody = {
 }
 
-export type PlaceOrderPostHeaders = {
+export type PlaceOrderHeaders = {
 }
 
-export type GetOrderByIdGetParams = {
-  orderId: string
+export type GetOrderByIdParams = {
+  orderId: string;
 }
 
-export type GetOrderByIdGetQuery = {
+export type GetOrderByIdQuery = {
 }
 
-export type GetOrderByIdGetBody = {
+export type GetOrderByIdBody = {
 }
 
-export type GetOrderByIdGetHeaders = {
+export type GetOrderByIdHeaders = {
 }
 
-export type DeleteOrderDeleteParams = {
-  orderId: string
+export type DeleteOrderParams = {
+  orderId: string;
 }
 
-export type DeleteOrderDeleteQuery = {
+export type DeleteOrderQuery = {
 }
 
-export type DeleteOrderDeleteBody = {
+export type DeleteOrderBody = {
 }
 
-export type DeleteOrderDeleteHeaders = {
+export type DeleteOrderHeaders = {
 }
 
-export type CreateUserPostParams = {
+export type CreateUserParams = {
 }
 
-export type CreateUserPostQuery = {
+export type CreateUserQuery = {
 }
 
-export type CreateUserPostBody = {
+export type CreateUserBody = {
 }
 
-export type CreateUserPostHeaders = {
+export type CreateUserHeaders = {
 }
 
-export type CreateUsersWithListInputPostParams = {
+export type CreateUsersWithListInputParams = {
 }
 
-export type CreateUsersWithListInputPostQuery = {
+export type CreateUsersWithListInputQuery = {
 }
 
-export type CreateUsersWithListInputPostBody = {
+export type CreateUsersWithListInputBody = {
 }
 
-export type CreateUsersWithListInputPostHeaders = {
+export type CreateUsersWithListInputHeaders = {
 }
 
-export type LoginUserGetParams = {
+export type LoginUserParams = {
 }
 
-export type LoginUserGetQuery = {
+export type LoginUserQuery = {
+  username?: string;
+  password?: string;
 }
 
-export type LoginUserGetBody = {
+export type LoginUserBody = {
 }
 
-export type LoginUserGetHeaders = {
+export type LoginUserHeaders = {
 }
 
-export type LogoutUserGetParams = {
+export type LogoutUserParams = {
 }
 
-export type LogoutUserGetQuery = {
+export type LogoutUserQuery = {
 }
 
-export type LogoutUserGetBody = {
+export type LogoutUserBody = {
 }
 
-export type LogoutUserGetHeaders = {
+export type LogoutUserHeaders = {
 }
 
-export type GetUserByNameGetParams = {
-  username: string
+export type GetUserByNameParams = {
+  username: string;
 }
 
-export type GetUserByNameGetQuery = {
+export type GetUserByNameQuery = {
 }
 
-export type GetUserByNameGetBody = {
+export type GetUserByNameBody = {
 }
 
-export type GetUserByNameGetHeaders = {
+export type GetUserByNameHeaders = {
 }
 
-export type UpdateUserPutParams = {
-  username: string
+export type UpdateUserParams = {
+  username: string;
 }
 
-export type UpdateUserPutQuery = {
+export type UpdateUserQuery = {
 }
 
-export type UpdateUserPutBody = {
+export type UpdateUserBody = {
 }
 
-export type UpdateUserPutHeaders = {
+export type UpdateUserHeaders = {
 }
 
-export type DeleteUserDeleteParams = {
-  username: string
+export type DeleteUserParams = {
+  username: string;
 }
 
-export type DeleteUserDeleteQuery = {
+export type DeleteUserQuery = {
 }
 
-export type DeleteUserDeleteBody = {
+export type DeleteUserBody = {
 }
 
-export type DeleteUserDeleteHeaders = {
+export type DeleteUserHeaders = {
 }

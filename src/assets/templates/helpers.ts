@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { Request, Response } from "./types";
 
-export function transformRequest(request: FastifyRequest): Request {
+export function transformRequest<T extends Request>(request: FastifyRequest): T {
   return {
     method: request.method,
     uri: request.originalUrl,
@@ -18,10 +18,10 @@ export function transformRequest(request: FastifyRequest): Request {
     cookie: {},
     store: {},
     extensions: {}
-  };
+  } as T;
 }
 
-export function sendResponse(response: Response, reply: FastifyReply): FastifyReply {
+export function sendResponse(response: Partial<Response>, reply: FastifyReply): FastifyReply {
   if (response.headers) {
     reply.headers(response.headers);
   }

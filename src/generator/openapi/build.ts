@@ -23,7 +23,14 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
         const operation = pathItem[method];
         const signature = [
           operation?.description ? `/** ${operation.description} */` : null,
-          `export function ${operation?.operationId}(factory: (request: T.Request) => Promise<T.Response>): void`
+          `export function ${operation?.operationId}(`,
+          `  factory: (request: T.Request<{`,
+          ...[ "params", "query", "body", "headers" ].map((part) => {
+            const pascalPart = pascalCase(part);
+            return `    ${pascalPart}: T.${pascalCase(operation!.operationId!)}${pascalPart};`;
+          }),
+          `  }>) => Promise<Partial<T.Response>>`,
+          `): void`
         ].filter(Boolean).join("\n");
 
         return [
@@ -45,23 +52,41 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
       if (method in pathItem && pathItem[method]) {
         const operation = pathItem[method];
 
+        const queries = operation?.parameters?.flatMap((param) => {
+          // TODO: support for $ref
+          return "$ref" in param
+            ? []
+            : param.in === "query"
+              ? [ param ]
+              : [];
+        }) ?? [];
+
+        const headers = operation?.parameters?.flatMap((param) => {
+          // TODO: support for $ref
+          return "$ref" in param
+            ? []
+            : param.in === "header"
+              ? [ param ]
+              : [];
+        }) ?? [];
+
         return [
           // params
           new Block([
-            ...getMatchedParams(path).map((param) => `${param}: string`)
-          ], 1, `export type ${pascalCase(operation!.operationId!)}${pascalCase(method)}Params =`),
+            ...getMatchedParams(path).map((p) => `${p}: string;`)
+          ], 1, `export type ${pascalCase(operation!.operationId!)}Params =`),
           // query
           new Block([
-            
-          ], 1, `export type ${pascalCase(operation!.operationId!)}${pascalCase(method)}Query =`),
+            ...queries.map((q) => `${q.name}${q.required ? "" : "?"}: string;`)
+          ], 1, `export type ${pascalCase(operation!.operationId!)}Query =`),
           // body
           new Block([
             
-          ], 1, `export type ${pascalCase(operation!.operationId!)}${pascalCase(method)}Body =`),
+          ], 1, `export type ${pascalCase(operation!.operationId!)}Body =`),
           // headers
           new Block([
-            
-          ], 1, `export type ${pascalCase(operation!.operationId!)}${pascalCase(method)}Headers =`)
+            ...headers.map((q) => `${q.name}${q.required ? "" : "?"}: string;`)
+          ], 1, `export type ${pascalCase(operation!.operationId!)}Headers =`)
         ];
       } else {
         return [];
