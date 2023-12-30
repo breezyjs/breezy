@@ -24,19 +24,19 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
         const signature = [
           operation?.description ? `/** ${operation.description} */` : null,
           `export function ${operation?.operationId}(`,
-          `  factory: (request: T.Request<{`,
+          `  factory: (request: Request<{`,
           ...[ "params", "query", "body", "headers" ].map((part) => {
             const pascalPart = pascalCase(part);
             return `    ${pascalPart}: T.${pascalCase(operation!.operationId!)}${pascalPart};`;
           }),
-          `  }>) => Promise<Partial<T.Response>>`,
+          `  }>) => Promise<Partial<Response>>`,
           `): void`
         ].filter(Boolean).join("\n");
 
         return [
           new Block([
-            `fastify.${method}("${convertPath(path)}", async (request, reply) => {`,
-            `  return sendResponse(await factory(transformRequest(request)), reply);`,
+            `register("${method}", "${convertPath(path)}", async (req: Parameters<typeof factory>[0]) => {`,
+            `  return await factory(req);`,
             `});`
           ], 1, signature)
         ];
@@ -96,9 +96,8 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
 
   // wrapping
   builderCodeSpace.insert([
-    `import { fastify } from "./bootstrap"`,
-    `import { transformRequest, sendResponse } from "./helpers"`,
-    `import * as T from "./types"`
+    `import { register, Request, Response } from "@breezy/dev";`,
+    `import * as T from "./types";`
   ]);
 
   builderCodeSpace.space(1);

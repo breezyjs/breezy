@@ -7,35 +7,28 @@ export type BootstrapOptions = {
   onClose?: () => void;
 }
 
-export type Response<TBody = any> = {
-  headers: Record<string, string>;
-  status: number;
-  body: TBody;
+export interface RequestGenericInterface {
+  Body?: unknown;
+  Query?: Record<string, unknown>;
+  Params?: Record<string, unknown>;
+  Headers?: Record<string, unknown>;
+  Cookie?: Record<string, unknown>;
 }
 
-export type RequestBodyDefault = unknown;
-export type RequestQueryDefault = {};
-export type RequestParamsDefault = {};
-export type RequestHeadersDefault = {};
-export type RequestCookieDefault = {};
-
-interface RequestGenericInterface {
-  Body?: RequestBodyDefault;
-  Query?: RequestQueryDefault;
-  Params?: RequestParamsDefault;
-  Headers?: RequestHeadersDefault;
-  Cookie?: RequestCookieDefault;
+export interface ResponseGenericInterface {
+  Headers?: Record<string, string>;
+  Body?: unknown;
 }
 
-export type Request<T extends RequestGenericInterface = {}> = {
+export interface RouteGenericInterface {
+  Req: RequestGenericInterface;
+  Res: ResponseGenericInterface;
+}
+
+export type HttpRequest<T extends RequestGenericInterface = Record<string, unknown>> = {
   method: string;
-  uri: string;
   version: string;
   path: string;
-  host: string;
-  scheme: string;
-  peerAddr?: string;
-  realIpRemoteAddr?: string;
   body: T["Body"];
   query: T["Query"];
   params: T["Params"];
@@ -45,10 +38,16 @@ export type Request<T extends RequestGenericInterface = {}> = {
   extensions: any;
 }
 
+export type HttpResponse<T extends ResponseGenericInterface = Record<string, unknown>> = {
+  headers: T["Headers"];
+  status: number;
+  body: T["Body"];
+}
+
 export type Handler = {
   method: "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace";
   path: string;
   pathRegExp: RegExp;
   pathKeys: Key[];
-  handler: <TReq extends Request, TRes extends Partial<Response>>(req: TReq) => TRes;
+  handler: (req: HttpRequest) => Promise<Partial<HttpResponse>>;
 }

@@ -7,8 +7,6 @@ const packageManifest = JSON.parse(fs.readFileSync("package.json", "utf-8"));
 
 const templates = {
   bootstrap: fs.readFileSync("src/assets/templates/bootstrap.ts"),
-  helpers: fs.readFileSync("src/assets/templates/helpers.ts"),
-  types: fs.readFileSync("src/assets/templates/types.ts")
 };
 
 Promise.all([
@@ -35,7 +33,7 @@ Promise.all([
   }),
   // dev build
   build({
-    entryPoints: ["packages/dev/index.ts"],
+    entryPoints: ["packages/dev/test.ts"],
     minify: true,
     sourcemap: true,
     bundle: true,

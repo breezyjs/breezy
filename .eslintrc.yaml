@@ -15,6 +15,7 @@ plugins:
 ignorePatterns:
   - "**/*.yaml"
   - "**/*.js"
+  - "tests/*"
 rules:
   # vanilla warn
   accessor-pairs:
