@@ -1,7 +1,6 @@
 import { pascalCase } from "change-case";
 import { METHODS } from "common/constants";
 import Block from "generator/libs/Block";
-import CodeSpace from "generator/libs/CodeSpace";
 import formatBlockSpace from "generator/libs/formatBlockSpace";
 import indentLines from "generator/libs/indentLines";
 import convertPath from "helpers/convertPath";
@@ -16,9 +15,9 @@ type BuildResult = {
 }
 
 export default function build(document: OpenAPIV3.Document): BuildResult {
-  const builderCodeSpace = new CodeSpace();
-  const typeCodeSpace = new CodeSpace();
-  const componentCodeSpace = new CodeSpace();
+  const builderCodeSpace = new Block();
+  const typeCodeSpace = new Block();
+  const componentCodeSpace = new Block();
 
   // paths
   const blocks = Object.entries(document.paths).flatMap(([ path, pathItem = {} ]) => {
@@ -72,7 +71,7 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
           `  TRes extends ResponseGenericInterface = Record<string, unknown>`,
           `>(`,
           `  factory: (request: HttpRequest<TReq>) => Promise<Partial<HttpResponse<TRes>>>`,
-          `): void`
+          `): void `
         ].filter(Boolean).join("\n");
 
         return [
@@ -89,25 +88,25 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
               ...(hasParams ? [
                 new Block([
                   ...getMatchedParams(path).map((p) => `${p}: string;`)
-                ], 1, `export type ${pascalCase(operation!.operationId!)}Params =`)
+                ], 1, `export type ${pascalCase(operation!.operationId!)}Params = `)
               ] : []),
               // query
               ...(hasQuery ? [
                 new Block([
                   ...queries.map((q) => `${q.name}${q.required ? "" : "?"}: string;`)
-                ], 1, `export type ${pascalCase(operation!.operationId!)}Query =`)
+                ], 1, `export type ${pascalCase(operation!.operationId!)}Query = `)
               ] : []),
               // body
               ...(hasBody ? [
                 new Block([
     
-                ], 1, `export type ${pascalCase(operation!.operationId!)}Body =`)
+                ], 1, `export type ${pascalCase(operation!.operationId!)}Body = `)
               ] : []),
               // headers
               ...(hasHeaders ? [
                 new Block([
                   ...headers.map((q) => `${q.name}${q.required ? "" : "?"}: string;`)
-                ], 1, `export type ${pascalCase(operation!.operationId!)}Headers =`)
+                ], 1, `export type ${pascalCase(operation!.operationId!)}Headers = `)
               ] : [])
             ]
           }
@@ -126,7 +125,7 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
       return [
         new Block([
           ...formatOASSchema(schemaObject).split("\n")
-        ], 1, `export type ${pascalCase(name)}Schema =`)
+        ], 1, `export type ${pascalCase(name)}Schema = `)
       ];
     }
   });

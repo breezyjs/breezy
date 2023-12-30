@@ -1,14 +1,13 @@
 import Block from "./Block";
-import CodeSpace from "./CodeSpace";
 
-export default function formatBlockSpace(codeSpace: CodeSpace, blocks: Block[]): string {
+export default function formatBlockSpace(space: Block, blocks: Block[]): string {
   blocks.forEach((block, i) => {
-    codeSpace.insert([ block ]);
+    space.insert([ block ]);
 
     if (i <= blocks.length - 2) {
-      codeSpace.space(1);
+      space.space(1);
     }
   });
 
-  return `${codeSpace.build()}\n`;
+  return `${space.build()}\n`;
 }

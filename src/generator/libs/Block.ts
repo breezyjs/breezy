@@ -6,14 +6,14 @@ type LineOptions = {
 }
 
 export default class Block {
-  /** Must start with 1. */
+  /** Must start with 0. 0 means code space (without braces) */
   private indentLevel: number;
   private indentSpace: string = "  ";
   private lines: (string | Block)[];
   private closingSignature: string | null;
   private signature: string | null;
 
-  constructor(lines: (string | Block)[] | Partial<LineOptions> = [], indentLevel = 1, signature?: string) {
+  constructor(lines: (string | Block)[] | Partial<LineOptions> = [], indentLevel = 0, signature?: string) {
     this.indentLevel = indentLevel;
     this.signature = signature ?? null;
 
@@ -26,7 +26,7 @@ export default class Block {
     }
   }
 
-  public insert(...lines: (string | Block)[]): void {
+  public insert(lines: (string | Block)[]): void {
     this.lines.push(...lines);
   }
 
@@ -39,15 +39,16 @@ export default class Block {
   }
   
   public build(): string {
-    const openingBlock = [ this.signature, "{" ].filter(Boolean).join(" ");
-    const closingBlock = [ "}" ].filter(Boolean).join(" ");
+    const braceIndent = this.indentSpace.repeat(Math.max(0, this.indentLevel - 1));
+    const openingBlock = [ braceIndent, this.signature, "{" ].filter(Boolean).join("");
+    const closingBlock = [ braceIndent, "}", this.closingSignature ].filter(Boolean).join("");
     
     return joinLines([
-      openingBlock,
+      this.indentLevel > 0 ? openingBlock : "",
       ...this.lines.map((line) => {
         return typeof line === "string" ? `${this.getBuiltIndent()}${line}` : indentLines(line.build().split("\n"), this.indentLevel, this.indentSpace);
       }),
-      closingBlock
-    ]);
+      this.indentLevel > 0 ? closingBlock : ""
+    ].filter(Boolean));
   }
 }
