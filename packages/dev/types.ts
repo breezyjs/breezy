@@ -27,14 +27,10 @@ export interface RouteGenericInterface {
   Res: ResponseGenericInterface;
 }
 
-export interface ServerGenericInterface {
-  Store?: Record<string, unknown>;
-}
-
 export type HttpRequest<T extends RequestGenericInterface = Record<string, unknown>> = {
   method: string;
   version: string;
-  path: string;
+  url: string;
   body: T["Body"];
   query: T["Query"];
   params: T["Params"];

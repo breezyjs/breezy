@@ -1,7 +1,7 @@
 import * as http from "http";
 import * as net from "net";
 import { Key, pathToRegexp } from "path-to-regexp";
-import { BootstrapOptions, Handler, HttpRequest, HttpResponse, RouteGenericInterface, ServerGenericInterface } from "./types";
+import { BootstrapOptions, Handler, HttpRequest, HttpResponse, RouteGenericInterface } from "./types";
 import parseBody from "./utils/parseBody";
 import { prepareResponse } from "./utils/prepareResponse";
 
@@ -9,8 +9,7 @@ export * from "./types";
 
 net.createServer();
 
-export class HttpServer<T extends ServerGenericInterface = Record<string, unknown>> {
-  private readonly store: T["Store"];
+export class HttpServer {
   private readonly server: http.Server;
   private readonly handler: Record<Handler["method"], Handler[]> = {
     get: [],
@@ -23,9 +22,7 @@ export class HttpServer<T extends ServerGenericInterface = Record<string, unknow
     trace: []
   };
 
-  constructor(initialStore: T["Store"] = {}) {
-    this.store = initialStore;
-
+  constructor() {
     this.server = http.createServer(async (req, res) => {
       const bodyBuffer = await new Promise<Buffer>((resolve, reject) => {
         const bufferChunks: Buffer[] = [];
@@ -35,9 +32,9 @@ export class HttpServer<T extends ServerGenericInterface = Record<string, unknow
         req.on("error", (err) => reject(err));
       });
     
-      const [ path = "", queryString = "" ] = req.url!.split("?");
+      const [ pathname = "", search = "", hash = "" ] = req.url!.split(/\?|#/g).map(decodeURIComponent);
       const method = req.method!.toLowerCase() as Handler["method"];
-      const matchedHandler = this.handler[method]?.find((handler) => handler.pathRegExp.test(path));
+      const matchedHandler = this.handler[method]?.find((handler) => handler.pathRegExp.test(pathname));
 
       // handle preflight request
       if (method === "options" && matchedHandler) {
@@ -52,16 +49,16 @@ export class HttpServer<T extends ServerGenericInterface = Record<string, unknow
       }
       // handle route
       else if (matchedHandler) {
-        const matchedValues = matchedHandler.pathRegExp.exec(path)?.slice(1) ?? [];
+        const matchedValues = matchedHandler.pathRegExp.exec(pathname)?.slice(1) ?? [];
         const params = Object.fromEntries(
           matchedHandler.pathKeys.map(({ name }, i) => [ name, matchedValues[i] ])
         );
-        const query = new URLSearchParams(queryString);
+        const query = new URLSearchParams(search);
     
         const response = await matchedHandler.handler({
           method,
           version: req.httpVersion,
-          path,
+          url: req.url ?? "",
           body: parseBody(bodyBuffer, req.headers["content-type"]),
           query: Object.fromEntries(query.entries()),
           params,

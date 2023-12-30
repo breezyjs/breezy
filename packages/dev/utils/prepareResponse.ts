@@ -25,7 +25,7 @@ export function prepareResponse(body: any): PreparedResponse {
   if (body instanceof URLSearchParams) {
     return {
       contentType: "application/x-www-form-urlencoded",
-      body: body.toString()
+      body: Array.from(body).map((item) => item.map(encodeURIComponent).join("=")).join("&")
     };
   }
 
