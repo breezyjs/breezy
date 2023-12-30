@@ -23,8 +23,8 @@ export class HttpServer<T extends ServerGenericInterface = Record<string, unknow
     trace: []
   };
 
-  constructor() {
-    this.store = {} as T["Store"];
+  constructor(initialStore: T["Store"] = {}) {
+    this.store = initialStore;
 
     this.server = http.createServer(async (req, res) => {
       const bodyBuffer = await new Promise<Buffer>((resolve, reject) => {
@@ -40,7 +40,7 @@ export class HttpServer<T extends ServerGenericInterface = Record<string, unknow
       const matchedHandler = this.handler[method]?.find((handler) => handler.pathRegExp.test(path));
 
       // handle preflight request
-      if (method === "options") {
+      if (method === "options" && matchedHandler) {
         res.writeHead(200, {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "*",
