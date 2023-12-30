@@ -1,8 +1,9 @@
 import { Key } from "path-to-regexp";
 
-export type BootstrapOptions = {
+export type BootstrapOptions<T extends ServerGenericInterface> = {
   port?: number;
   host?: string;
+  store?: T["Store"];
   onListen?: (err: Error | null, address: string) => void;
   onClose?: () => void;
 }
@@ -25,6 +26,10 @@ export interface ResponseGenericInterface {
 export interface RouteGenericInterface {
   Req: RequestGenericInterface;
   Res: ResponseGenericInterface;
+}
+
+export interface ServerGenericInterface {
+  Store: Record<string, unknown>;
 }
 
 export type HttpRequest<T extends RequestGenericInterface = Record<string, unknown>> = {

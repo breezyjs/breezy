@@ -1,7 +1,7 @@
 import * as http from "http";
 import * as net from "net";
 import { Key, pathToRegexp } from "path-to-regexp";
-import { BootstrapOptions, Handler, HttpRequest, HttpResponse, RouteGenericInterface } from "./types";
+import { BootstrapOptions, Handler, HttpRequest, HttpResponse, RouteGenericInterface, ServerGenericInterface } from "./types";
 import parseBody from "./utils/parseBody";
 import { prepareResponse } from "./utils/prepareResponse";
 
@@ -9,7 +9,8 @@ export * from "./types";
 
 net.createServer();
 
-export class HttpServer {
+export class HttpServer<T extends ServerGenericInterface> {
+  private readonly store: T["Store"] = {};
   private readonly server: http.Server;
   private readonly handler: Record<Handler["method"], Handler[]> = {
     get: [],
@@ -53,14 +54,13 @@ export class HttpServer {
         const params = Object.fromEntries(
           matchedHandler.pathKeys.map(({ name }, i) => [ name, matchedValues[i] ])
         );
-        const query = new URLSearchParams(search);
     
         const response = await matchedHandler.handler({
           method,
           version: req.httpVersion,
           url: req.url ?? "",
           body: parseBody(bodyBuffer, req.headers["content-type"]),
-          query: Object.fromEntries(query.entries()),
+          query: Object.fromEntries(new URLSearchParams(search)),
           params,
           headers: req.headers,
           cookie: {},
@@ -103,7 +103,11 @@ export class HttpServer {
     });
   }
 
-  bind(options: BootstrapOptions): void {
+  bind(options: BootstrapOptions<T>): void {
+    if (options.store) {
+      Object.assign(this.store, options.store);
+    }
+
     this.server.listen(options.port, options.host, () => {
       console.log(`listening on port ${options.port}`);
     });

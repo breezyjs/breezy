@@ -4,3 +4,11 @@ prismaSchema: "./schema.prisma"
 bootstrap: "./src/index.ts"
 generatedOutputDir: "./src/core/"
 srcDir: "./src"
+store:
+  apiKey: string
+  prisma: PrismaClient
+  sequences: number[]
+  tests:
+    items:
+      customerName?: string
+      
