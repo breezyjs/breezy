@@ -5,7 +5,7 @@ import CodeSpace from "generator/libs/CodeSpace";
 import formatBlockSpace from "generator/libs/formatBlockSpace";
 import indentLines from "generator/libs/indentLines";
 import convertPath from "helpers/convertPath";
-import formatOASSchema from "helpers/formatOasSchema";
+import formatOASSchema from "helpers/formatOASSchema";
 import getMatchedParams from "helpers/getMatchedParams";
 import { OpenAPIV3 } from "openapi-types";
 

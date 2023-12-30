@@ -1,25 +1,33 @@
 export type OrderSchema = {
+  
 }
 
 export type CustomerSchema = {
+  
 }
 
 export type AddressSchema = {
+  
 }
 
 export type CategorySchema = {
+  
 }
 
 export type UserSchema = {
+  
 }
 
 export type TagSchema = {
+  
 }
 
 export type PetSchema = {
+  
 }
 
 export type ApiResponseSchema = {
+  
 }
 
 export type UpdatePetQuery = {
