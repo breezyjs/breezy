@@ -23,19 +23,22 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
         const operation = pathItem[method];
         const signature = [
           operation?.description ? `/** ${operation.description} */` : null,
-          `export function ${operation?.operationId}(`,
-          `  factory: (request: Request<{`,
+          `export function ${operation?.operationId}<`,
+          `  TReq extends RequestGenericInterface = {`,
           ...[ "params", "query", "body", "headers" ].map((part) => {
             const pascalPart = pascalCase(part);
-            return `    ${pascalPart}: T.${pascalCase(operation!.operationId!)}${pascalPart};`;
+            return `    ${pascalPart}: Types.${pascalCase(operation!.operationId!)}${pascalPart};`;
           }),
-          `  }>) => Promise<Partial<Response>>`,
+          `  },`,
+          `  TRes extends ResponseGenericInterface = Record<string, unknown>`,
+          `>(`,
+          `  factory: (request: HttpRequest<TReq>) => Promise<Partial<HttpResponse<TRes>>>`,
           `): void`
         ].filter(Boolean).join("\n");
 
         return [
           new Block([
-            `register("${method}", "${convertPath(path)}", async (req: Parameters<typeof factory>[0]) => {`,
+            `server.register<{ Req: TReq, Res: TRes }>("${method}", "${convertPath(path)}", async (req) => {`,
             `  return await factory(req);`,
             `});`
           ], 1, signature)
@@ -81,7 +84,7 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
           ], 1, `export type ${pascalCase(operation!.operationId!)}Query =`),
           // body
           new Block([
-            
+
           ], 1, `export type ${pascalCase(operation!.operationId!)}Body =`),
           // headers
           new Block([
@@ -96,8 +99,9 @@ export default function build(document: OpenAPIV3.Document): BuildResult {
 
   // wrapping
   builderCodeSpace.insert([
-    `import { register, Request, Response } from "@breezy/dev";`,
-    `import * as T from "./types";`
+    `import { HttpRequest, HttpResponse, RequestGenericInterface, ResponseGenericInterface } from "@breezy/dev";`,
+    `import { server } from "./bootstrap";`,
+    `import * as Types from "./types";`
   ]);
 
   builderCodeSpace.space(1);

@@ -22,6 +22,12 @@ export function prepareResponse(body: any): PreparedResponse {
       body
     };
   }
+  if (body instanceof URLSearchParams) {
+    return {
+      contentType: "application/x-www-form-urlencoded",
+      body: body.toString()
+    };
+  }
 
   return {
     contentType: "text/plain",

@@ -13,6 +13,8 @@ export interface RequestGenericInterface {
   Params?: Record<string, unknown>;
   Headers?: Record<string, unknown>;
   Cookie?: Record<string, unknown>;
+  Store?: Record<string, unknown>;
+  Extensions?: Record<string, unknown>;
 }
 
 export interface ResponseGenericInterface {
@@ -25,6 +27,10 @@ export interface RouteGenericInterface {
   Res: ResponseGenericInterface;
 }
 
+export interface ServerGenericInterface {
+  Store?: Record<string, unknown>;
+}
+
 export type HttpRequest<T extends RequestGenericInterface = Record<string, unknown>> = {
   method: string;
   version: string;
@@ -34,14 +40,14 @@ export type HttpRequest<T extends RequestGenericInterface = Record<string, unkno
   params: T["Params"];
   headers: T["Headers"];
   cookie: T["Cookie"];
-  store: any;
-  extensions: any;
+  store: T["Store"];
+  extensions: T["Extensions"];
 }
 
 export type HttpResponse<T extends ResponseGenericInterface = Record<string, unknown>> = {
-  headers: T["Headers"];
-  status: number;
-  body: T["Body"];
+  headers?: T["Headers"];
+  status?: number;
+  body?: T["Body"];
 }
 
 export type Handler = {

@@ -1,17 +1,16 @@
 import * as http from "http";
 import * as net from "net";
-import { BootstrapOptions, Handler, HttpRequest, HttpResponse, RouteGenericInterface } from "./types";
-import { pathToRegexp, Key } from "path-to-regexp";
-import { prepareResponse } from "./utils/prepareResponse";
+import { Key, pathToRegexp } from "path-to-regexp";
+import { BootstrapOptions, Handler, HttpRequest, HttpResponse, RouteGenericInterface, ServerGenericInterface } from "./types";
 import parseBody from "./utils/parseBody";
-import contentType from "content-type";
+import { prepareResponse } from "./utils/prepareResponse";
 
 export * from "./types";
 
 net.createServer();
 
-export class HttpServer<TStore extends Record<string, unknown> = Record<string, unknown>> {
-  private readonly store: TStore;
+export class HttpServer<T extends ServerGenericInterface = Record<string, unknown>> {
+  private readonly store: T["Store"];
   private readonly server: http.Server;
   private readonly handler: Record<Handler["method"], Handler[]> = {
     get: [],
@@ -25,7 +24,7 @@ export class HttpServer<TStore extends Record<string, unknown> = Record<string, 
   };
 
   constructor() {
-    this.store = {} as TStore;
+    this.store = {} as T["Store"];
 
     this.server = http.createServer(async (req, res) => {
       const bodyBuffer = await new Promise<Buffer>((resolve, reject) => {
@@ -63,7 +62,7 @@ export class HttpServer<TStore extends Record<string, unknown> = Record<string, 
           method,
           version: req.httpVersion,
           path,
-          body: parseBody(bodyBuffer, contentType.parse(req.headers["content-type"]!).type),
+          body: parseBody(bodyBuffer, req.headers["content-type"]),
           query: Object.fromEntries(query.entries()),
           params,
           headers: req.headers,
