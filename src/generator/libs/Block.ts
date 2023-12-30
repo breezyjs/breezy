@@ -1,17 +1,29 @@
 import indentLines from "./indentLines";
 import joinLines from "./joinLines";
 
+type LineOptions = {
+  closingSignature: string
+}
+
 export default class Block {
   /** Must start with 1. */
   private indentLevel: number;
   private indentSpace: string = "  ";
   private lines: (string | Block)[];
+  private closingSignature: string | null;
   private signature: string | null;
 
-  constructor(lines: (string | Block)[] = [], indentLevel = 1, signature?: string) {
+  constructor(lines: (string | Block)[] | Partial<LineOptions> = [], indentLevel = 1, signature?: string) {
     this.indentLevel = indentLevel;
-    this.lines = lines;
     this.signature = signature ?? null;
+
+    if (Array.isArray(lines)) {
+      this.lines = lines;
+      this.closingSignature = null;
+    } else {
+      this.lines = [];
+      this.closingSignature = lines.closingSignature ?? null;
+    }
   }
 
   public insert(...lines: (string | Block)[]): void {

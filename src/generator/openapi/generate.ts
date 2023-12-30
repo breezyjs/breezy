@@ -49,5 +49,5 @@ export default function generate(option: CliOptions & ManifestOptions) {
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(path.join(outputDir, "builders.ts"), buildResult.builderCode);
   fs.writeFileSync(path.join(outputDir, "bootstrap.ts"), decompress(Buffer.from(__TEMPLATE_BOOTSTRAP__, "base64")));
-  fs.writeFileSync(path.join(outputDir, "types.ts"), buildResult.typeCode);
+  fs.writeFileSync(path.join(outputDir, "types.ts"), [ buildResult.componentCode, buildResult.typeCode ].join("\n"));
 }

@@ -1,4 +1,25 @@
-export type UpdatePetParams = {
+export type OrderSchema = {
+}
+
+export type CustomerSchema = {
+}
+
+export type AddressSchema = {
+}
+
+export type CategorySchema = {
+}
+
+export type UserSchema = {
+}
+
+export type TagSchema = {
+}
+
+export type PetSchema = {
+}
+
+export type ApiResponseSchema = {
 }
 
 export type UpdatePetQuery = {
@@ -10,9 +31,6 @@ export type UpdatePetBody = {
 export type UpdatePetHeaders = {
 }
 
-export type AddPetParams = {
-}
-
 export type AddPetQuery = {
 }
 
@@ -22,27 +40,15 @@ export type AddPetBody = {
 export type AddPetHeaders = {
 }
 
-export type FindPetsByStatusParams = {
-}
-
 export type FindPetsByStatusQuery = {
   status?: string;
-}
-
-export type FindPetsByStatusBody = {
 }
 
 export type FindPetsByStatusHeaders = {
 }
 
-export type FindPetsByTagsParams = {
-}
-
 export type FindPetsByTagsQuery = {
   tags?: string;
-}
-
-export type FindPetsByTagsBody = {
 }
 
 export type FindPetsByTagsHeaders = {
@@ -53,9 +59,6 @@ export type GetPetByIdParams = {
 }
 
 export type GetPetByIdQuery = {
-}
-
-export type GetPetByIdBody = {
 }
 
 export type GetPetByIdHeaders = {
@@ -70,9 +73,6 @@ export type UpdatePetWithFormQuery = {
   status?: string;
 }
 
-export type UpdatePetWithFormBody = {
-}
-
 export type UpdatePetWithFormHeaders = {
 }
 
@@ -81,9 +81,6 @@ export type DeletePetParams = {
 }
 
 export type DeletePetQuery = {
-}
-
-export type DeletePetBody = {
 }
 
 export type DeletePetHeaders = {
@@ -104,19 +101,10 @@ export type UploadFileBody = {
 export type UploadFileHeaders = {
 }
 
-export type GetInventoryParams = {
-}
-
 export type GetInventoryQuery = {
 }
 
-export type GetInventoryBody = {
-}
-
 export type GetInventoryHeaders = {
-}
-
-export type PlaceOrderParams = {
 }
 
 export type PlaceOrderQuery = {
@@ -135,9 +123,6 @@ export type GetOrderByIdParams = {
 export type GetOrderByIdQuery = {
 }
 
-export type GetOrderByIdBody = {
-}
-
 export type GetOrderByIdHeaders = {
 }
 
@@ -148,13 +133,7 @@ export type DeleteOrderParams = {
 export type DeleteOrderQuery = {
 }
 
-export type DeleteOrderBody = {
-}
-
 export type DeleteOrderHeaders = {
-}
-
-export type CreateUserParams = {
 }
 
 export type CreateUserQuery = {
@@ -166,9 +145,6 @@ export type CreateUserBody = {
 export type CreateUserHeaders = {
 }
 
-export type CreateUsersWithListInputParams = {
-}
-
 export type CreateUsersWithListInputQuery = {
 }
 
@@ -178,27 +154,15 @@ export type CreateUsersWithListInputBody = {
 export type CreateUsersWithListInputHeaders = {
 }
 
-export type LoginUserParams = {
-}
-
 export type LoginUserQuery = {
   username?: string;
   password?: string;
 }
 
-export type LoginUserBody = {
-}
-
 export type LoginUserHeaders = {
 }
 
-export type LogoutUserParams = {
-}
-
 export type LogoutUserQuery = {
-}
-
-export type LogoutUserBody = {
 }
 
 export type LogoutUserHeaders = {
@@ -209,9 +173,6 @@ export type GetUserByNameParams = {
 }
 
 export type GetUserByNameQuery = {
-}
-
-export type GetUserByNameBody = {
 }
 
 export type GetUserByNameHeaders = {
@@ -235,9 +196,6 @@ export type DeleteUserParams = {
 }
 
 export type DeleteUserQuery = {
-}
-
-export type DeleteUserBody = {
 }
 
 export type DeleteUserHeaders = {
