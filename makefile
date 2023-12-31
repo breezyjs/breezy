@@ -1,6 +1,8 @@
-test:
-	yarn dev generate --manifest tests/api/simple/.breezy.yaml
+run:
+	node scripts/esbuild.js
+	node dist/index.js generate --manifest tests/api/simple/.breezy.yaml
 dev:
-	yarn build && node dist/dev.js
+	node scripts/dev.esbuild.js
+	node dist/dev.js
 serve:
 	node server.js

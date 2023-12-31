@@ -1,7 +1,7 @@
 import { pascalCase } from "change-case";
-import { OpenAPIV3 } from "openapi-types";
+import { OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
 
-const OBJ_NAME_MAP = {
+const OBJ_NAME_MAP: Record<keyof OpenAPIV3_1.ComponentsObject, string> = {
   schemas: "Schema",
   responses: "Response",
   parameters: "Parameter",
